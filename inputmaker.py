@@ -30,11 +30,15 @@ def makeinput(N):
                 break
             else:
                 continue
-        print(f"{x[i]} {y[i]} {o[i]} {c[i]} {u[i]} {t[i]}")
+        with open("inputs/small1.in","a") as input_file:
+            print(f"{x[i]} {y[i]} {o[i]} {c[i]} {u[i]} {t[i]}", file=input_file)
+            input_file.close()
 
 def readinput():
     N = int(input())
-    print(N)
+    with open("inputs/small1.in", "w") as input_file:
+        print(N, file=input_file)
+        input_file.close()
     return N
 
 def main():
