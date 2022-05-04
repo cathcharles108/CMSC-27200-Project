@@ -17,10 +17,10 @@ def readinput():
     N = int(input())
     return N
 
-def inputmaker():
+def main():
     N = readinput()
     makeinput(N)
 
-if __name__ == '__inputmaker__':
-    inputmaker()
+if __name__ == '__main__':
+    main()
 
