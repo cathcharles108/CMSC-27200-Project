@@ -20,7 +20,7 @@ def makeinput(N):
             c1 = random.randint(o1,1441)
             test = int(1441-c1-distance(x1,y1))
             if (test >= 1):
-                m = min(c1-o1, 1441-o1)
+                m = 1441 - o1
                 t1 = random.randint(1, m)  
                 x.append(x1)
                 y.append(y1)
@@ -31,13 +31,13 @@ def makeinput(N):
                 break
             else:
                 continue
-        with open("inputs/small1.in","a") as input_file:
+        with open("inputs/large3.in","a") as input_file:
             print(f"{x[i]} {y[i]} {o[i]} {c[i]} {u[i]} {t[i]}", file=input_file)
             input_file.close()
 
 def readinput():
     N = int(input())
-    with open("inputs/small1.in", "w") as input_file:
+    with open("inputs/large3.in", "w") as input_file:
         print(N, file=input_file)
         input_file.close()
     return N
