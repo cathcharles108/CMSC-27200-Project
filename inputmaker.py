@@ -13,14 +13,14 @@ def makeinput(N):
     x, y, u, o, c, t = [], [], [], [], [], []
     for i in range(N):
         while True:
-            x1 = random.randint(0, 401)
-            y1 = random.randint(0, 401)
-            u1 = random.randint(1, 27201)
-            o1 = random.randint(0, 1441)
-            c1 = random.randint(o1,1441)
-            test = int(1441-c1-distance(x1,y1))
+            x1 = random.randint(0, 400)
+            y1 = random.randint(0, 400)
+            u1 = random.randint(1, 27200)
+            o1 = random.randint(0, 1440)
+            c1 = random.randint(o1,1440)
+            test = int(1440-c1-distance(x1,y1))
             if (test >= 1):
-                m = 1441 - o1
+                m = 1440 - o1
                 t1 = random.randint(1, m)  
                 x.append(x1)
                 y.append(y1)
