@@ -20,7 +20,8 @@ def makeinput(N):
             c1 = random.randint(o1,1441)
             test = int(1441-c1-distance(x1,y1))
             if (test >= 1):
-                t1 = random.randint(1, test)
+                m = min(c1-o1, 1441-o1)
+                t1 = random.randint(1, m)  
                 x.append(x1)
                 y.append(y1)
                 u.append(u1)
