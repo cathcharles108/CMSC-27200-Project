@@ -5,7 +5,6 @@
 
 import random
 import math
-import numpy as np
 
 def distance(x1,y1,x2,y2):
     return math.sqrt((x2-x1)**2 + (y2-y1)**2)
@@ -34,14 +33,14 @@ def makeinput(N):
                         l = o1+t1 - c1 + 1
                         nested[0].append(pointwithin(x1, y1, l/12)[0])
                         nested[0].append(pointwithin(x1, y1, l/12)[1])
-                        nested[0].append(random.randint(c1+int(l/12), c1+np.floor(3*l/12)))
-                        nested[0].append(random.randint(c1+np.floor(3*l/12) - nested[0][-1], c1 + int(3*l/12)))
+                        nested[0].append(random.randint(c1+int(l/12), c1+int(3*l/12)))
+                        nested[0].append(random.randint(c1+int(3*l/12) - nested[0][-1], c1 + int(3*l/12)))
                         nested[0].append(ulist[0])
                         nested[0].append(random.randint(1, nested[0][3] - nested[0][2] + 1))
                         nested[1].append(pointwithin(nested[0][0], nested[0][1], l/12)[0])
                         nested[1].append(pointwithin(nested[0][0], nested[0][1], l/12)[1])
-                        nested[1].append(random.randint(c1+int(4*l/12), c1+np.floor(6*l/12)))
-                        nested[1].append(random.randint(c1+np.floor(6*l/12) - nested[1][-1], c1+np.floor(6*l/12)))
+                        nested[1].append(random.randint(c1+int(4*l/12), c1+int(6*l/12)))
+                        nested[1].append(random.randint(c1+int(6*l/12) - nested[1][-1], c1+int(6*l/12)))
                         nested[1].append(ulist[1])
                         nested[1].append(random.randint(1, nested[1][3] - nested[1][2] + 1))
                         nested[2].append(pointwithin(nested[1][0], nested[1][1], l/12)[0])
