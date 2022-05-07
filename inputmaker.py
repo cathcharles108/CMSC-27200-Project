@@ -30,23 +30,23 @@ def makeinput(N):
                         d2 = random.randint(d1, unew + 500)
                         ulist = [d1, d2 - d1, unew + 500 - d2]
                         nested = [[] for _ in range(3)]
-                        l = o1+t1 - c1 + 1
+                        l = o1+t1 - c1
                         nested[0].append(pointwithin(x1, y1, l/12)[0])
                         nested[0].append(pointwithin(x1, y1, l/12)[1])
-                        nested[0].append(random.randint(c1+int(l/12), c1+int(3*l/12)))
-                        nested[0].append(random.randint(c1+int(3*l/12) - nested[0][-1], c1 + int(3*l/12)))
+                        nested[0].append(random.randint(c1+int(l/12), c1+3*int(l/12)))
+                        nested[0].append(random.randint(nested[0][-1], c1 + 3*int(l/12)))
                         nested[0].append(ulist[0])
                         nested[0].append(random.randint(1, nested[0][3] - nested[0][2] + 1))
                         nested[1].append(pointwithin(nested[0][0], nested[0][1], l/12)[0])
                         nested[1].append(pointwithin(nested[0][0], nested[0][1], l/12)[1])
-                        nested[1].append(random.randint(c1+int(4*l/12), c1+int(6*l/12)))
-                        nested[1].append(random.randint(c1+int(6*l/12) - nested[1][-1], c1+int(6*l/12)))
+                        nested[1].append(random.randint(c1+4*int(l/12), c1+6*int(l/12)))
+                        nested[1].append(random.randint(nested[1][-1], c1+6*int(l/12)))
                         nested[1].append(ulist[1])
                         nested[1].append(random.randint(1, nested[1][3] - nested[1][2] + 1))
                         nested[2].append(pointwithin(nested[1][0], nested[1][1], l/12)[0])
                         nested[2].append(pointwithin(nested[1][0], nested[1][1], l/12)[1])
-                        nested[2].append(random.randint(c1+int(7*l/12), c1+int(9*l/12)))
-                        nested[2].append(random.randint(c1+int(9*l/12) - nested[2][-1], c1 +int(9*l/12)))
+                        nested[2].append(random.randint(c1+7*int(l/12), c1+9*int(l/12)))
+                        nested[2].append(random.randint(nested[2][-1], c1 +9*int(l/12)))
                         nested[2].append(ulist[2])
                         nested[2].append(random.randint(1, nested[2][3] - nested[2][2] + 1))
                         for k in range(3):
