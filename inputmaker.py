@@ -69,30 +69,9 @@ def makeinput(N):
     random.shuffle(randomlist)
     for i in randomlist:
         print(f"{x[i]} {y[i]} {o[i]} {c[i]} {u[i]} {t[i]}")
-
-    # for i in range(N):
-    #     while True:
-    #         x1 = random.randint(0, 400)
-    #         y1 = random.randint(0, 400)
-    #         u1 = random.randint(1, 27200)
-    #         o1 = random.randint(0, 1440)
-    #         c1 = random.randint(o1,1440)
-    #         test = int(1440-c1-distance(x1,y1))
-    #         if (test >= 1):
-    #             m = 1440 - o1
-    #             t1 = random.randint(1, m)
-    #             x.append(x1)
-    #             y.append(y1)
-    #             u.append(u1)
-    #             o.append(o1)
-    #             c.append(c1)
-    #             t.append(t1)
-    #             break
-    #         else:
-    #             continue
-    #     with open("inputs/large3.in","a") as input_file:
-    #         print(f"{x[i]} {y[i]} {o[i]} {c[i]} {u[i]} {t[i]}", file=input_file)
-    #         input_file.close()
+        with open("input/large3.in","a") as input_file:
+            print(f"{x[i]} {y[i]} {o[i]} {c[i]} {u[i]} {t[i]}", file=input_file)
+            input_file.close()
 
 def pointwithin(x, y, d):
     while True:
@@ -103,9 +82,9 @@ def pointwithin(x, y, d):
           
 def readinput():
     N = int(input())
-    # with open("inputs/large3.in", "w") as input_file:
-    #     print(N, file=input_file)
-    #     input_file.close()
+    with open("input/large3.in", "w") as input_file:
+        print(N, file=input_file)
+        input_file.close()
     return N
 
 def main():
