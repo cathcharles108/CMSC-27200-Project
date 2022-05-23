@@ -1,0 +1,26 @@
+Two weeks before the end of the project, you and your team should have spent a decent amount of time thinking about the algorithm you want to implement, and should hopefully already have a first version of it implemented. To ensure that this is the case, you will submit a design document answering the
+following questions:
+• What have you thought about so far? Which ideas seemed promising, and which ideas didn’t seem so promising?
+• What is your approach for the algorithm? How will it process the input, and how will it find a good solution? What heuristics or ideas do you plan to leverage, and why? What tools or services do you plan to use?
+Your design document only needs to be around 500 words long, but can be more if you have more to say.
+
+
+• Specific type of greedy algorithm
+  • Choosing the "next best" ride -> best u_i/t_i - lambda * distance out of feasible rides - can vary 
+  • We realized we could incorporate the distance into the time consideration: u_i/(time to go to i + t_i)
+  • The other consideration is the amount of time it takes to get back from the ride to the center --> for early rides, this matters less, but for later rides, this matters more
+• Include an extra parameter: u_i/(time to i + wait_i + t_i + (time to center)/f(1440-(C_i + t_i)))
+--> f here is an increasing function
+  • This greedy algo might miss certain optimal rides because the "next best" might make certain rides not possible which altogether have very high u_i/t_i
+• New idea (based on the paper): we don't have to pick in sequential order
+--> can use the following rule:
+•  u_i^2/(added time spent) = u_i^2/(time to new destination + t_i + time to next - the old between where we're inserting)
+• If the ride added is the last ride before TheoryWorld closes, then the time to next is based on the time to return to the starting position
+• Note that u_i is squared now...
+• Big idea from paper: "Iterated Local Search"
+• Keep trying to insert feasible rides until we reach a "local optimum" (we also keep track of the maximum amounts rides can be shifted later without interfering with other rides to make feasibility checking easier)
+• However: this might not represent a global optimum so we want to try to escape from this to explore more of the solution space
+• This leads to the shake step.
+• We remove one or more rides from our sequence of rides, and shift the rides after the removal as early as we can --> then we apply insertion (must set a maximum number of rides to remove)
+• We set some threshold for the number of times we do insertion/shake with no improvement and then return the best solution we have found
+  
