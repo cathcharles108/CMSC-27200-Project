@@ -3,12 +3,14 @@ import math
 
 def read_input():
     N = int(input())
-    data = [[int(i) for i in input().split()] for _ in range(N)]
+    data = []
+    for i in range(N):
+        data.append([int(k) for k in input().split()] + [i])
     return N, data
   
 def solve(N, data):
-    # a visit has the following format: x, y, o, c, t, u, a, s, wait, maxshift
-    current = [[200, 200, 0, 0, 0, 0, 0, 0, 0, 0], "end"]
+    # a visit has the following format: x, y, o, c, t, u, a, s, wait, maxshift, og_index
+    current = [[200, 200, 0, 0, 0, 0, 0, 0, 0, 0, "N/A"], "end"]
     length = 0
     s = 1
     r = 1
@@ -44,19 +46,20 @@ def insert(data, route, value, length):
 def tryinsert(data, route, value, length):
     H = []
     for j in range(len(data)):
-        x, y, o, c, t, u = data[j]
+        x, y, o, c, t, u, indexj = data[j]
         bestshift = float('inf')
         bestwait = "none"
         bestarrival = "none"
         bestindex = "none"
         beststart = "none"
+        bestoriginalindex = "none"
         for i in range(len(route)-1):
             k = i+1
-            xi, yi, oi, ci, ti, ui, ai, si, waiti, maxshifti = route[i]
+            xi, yi, oi, ci, ti, ui, ai, si, waiti, maxshifti, ogi = route[i]
             if route[k] == "end":
                 xk, yk, ck = 200, 200, 1440
             else:
-                xk, yk, ok, ck, tk, uk, ak, sk, waitk, maxshiftk = route[k]
+                xk, yk, ok, ck, tk, uk, ak, sk, waitk, maxshiftk, ogk = route[k]
             c_ij = distance(xi, yi, x, y)
             c_jk = distance(x, y, xk, yk)
             c_ik = distance(xi, yi, xk, yk)
@@ -74,19 +77,20 @@ def tryinsert(data, route, value, length):
                     beststart = possible_s
                     bestwait = wait
                     bestindex = i
+                    bestoriginalindex = indexj
         if bestindex != "none":
-            heapq.heappush(H, (-u**2/bestshift, [j, bestindex, bestarrival, beststart, bestwait, bestshift]))
+            heapq.heappush(H, (-u**2/bestshift, [j, bestindex, bestarrival, beststart, bestwait, bestshift, bestoriginalindex]))
     if len(H) != 0:
         ratio, insertion = heapq.heappop(H)
-        j, i, a, start, wait, shift = insertion
-        x, y, o, c, t, u = data[j]
+        j, i, a, start, wait, shift, og_index = insertion
+        x, y, o, c, t, u, og = data[j]
         value += u
         length += 1
         data.pop(j)
         route = updateafter(route, i, shift)
         maxshift = maxshiftupdate(route, i, c, start, t, x, y)
         route = updatebefore(route, i, wait, maxshift)
-        return route[:i+1] + [[x, y, o, c, t, u, a, start, wait, maxshift]] + route[i+1:], value, data, length
+        return route[:i+1] + [[x, y, o, c, t, u, a, start, wait, maxshift, og_index]] + route[i+1:], value, data, length
     else:
         return route, value, data, length
 
@@ -94,7 +98,7 @@ def updateafter(route, i, shift):
     earliershift = shift
     l = i+1
     while earliershift != 0 and l < len(route) - 1:
-        x, y, o, c, t, u, a, s, wait, maxshift = route[l]
+        x, y, o, c, t, u, a, s, wait, maxshift, og = route[l]
         route[l][8] = max(0, wait - earliershift)
         route[l][6] = a + earliershift
         earliershift = max(0, earliershift - wait)
@@ -108,7 +112,7 @@ def updatebefore(route, i, wait, maxshift):
     nextmaxshift = maxshift
     l = i
     while l != 0:
-        x, y, o, c, t, u, a, s, wait, maxshift = route[l]
+        x, y, o, c, t, u, a, s, wait, maxshift, og = route[l]
         route[l][9] = min(c - s, nextwait + nextmaxshift)
         nextwait = wait
         nextmaxshift = route[l][9]
@@ -117,7 +121,7 @@ def updatebefore(route, i, wait, maxshift):
 
 def maxshiftupdate(route, i, c, start, t, x, y):
     if i != len(route)-2:
-        xk, yk, ok, ck, tk, uk, ak, sk, waitk, maxshiftk = route[i+1]
+        xk, yk, ok, ck, tk, uk, ak, sk, waitk, maxshiftk, ogk = route[i+1]
         return min(c - start, waitk + maxshiftk)
     else:
         return 1440 - (start + t) - distance(x, y, 200, 200)
@@ -131,7 +135,7 @@ def distance(x1,y1,x2,y2):
       
 def main():
     N, data = read_input()
-    route = [[200, 200, 0, 0, 0, 0, 0, 0, 0, 0], "end"]
+    route = [[200, 200, 0, 0, 0, 0, 0, 0, 0, 0, "N/A"], "end"]
     print(insert(data, route, 0, 0))
 
 if __name__ == '__main__':
