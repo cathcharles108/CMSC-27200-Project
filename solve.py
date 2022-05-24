@@ -27,7 +27,7 @@ def solve(N, data):
             num_no_improvement = 0
         else:
             num_no_improvement += 1
-        #current, value = shake(r, s, current)
+        current, value, data, length = shake(r, s, current, value, data, length)
         s = s + r
         r = r + 1
         if s >= length:
@@ -130,13 +130,69 @@ def maxshiftupdate(route, i, c, start, t, x, y):
 def distance(x1,y1,x2,y2):
     return math.ceil(math.sqrt((x2-x1)**2 + (y2-y1)**2))
 
-# def shake(r, s, route):
-#     ...
-      
+def shake(r, s, route, value, data, length):
+    length = length - r
+    begin = route.pop(0)
+    final = route.pop(-1)
+    l = len(route)
+    start = s-1
+    end = (s - 1 + r) % l
+    if start <= end:
+        valuedeleted = sum([route[j][5] for j in range(start, end + 1)])
+        for j in range(start, end + 1):
+            data.append(route[j])
+        del route[start : end + 1]
+        m = start
+        while m < l:
+            xm, ym, om, cm, tm, um, am, sm, waitm, maxshiftm, ogm = route[m]
+            x, y, o, c, t, u, a, s, wait, maxshift, og = route[m-1]
+            dist = distance(x, y, xm, ym)
+            newam = s + t + dist
+            shift = am - newam
+            newsm = max(newam, om)
+            newwaitm = max(0, newsm - newam)
+            newmaxshiftm = maxshiftm + shift
+            route[m] = [xm, ym, om, cm, tm, um, newam, newsm, newwaitm, newmaxshiftm, ogm]
+            m += 1
+        if start > 0:
+            route = updatebefore([begin] + route + [final], start, route[start][8], route[start][9])
+        else:
+            route = [begin] + route + [final]
+    else:
+        valuedeleted = sum([route[j][5] for j in range(start, l)] + [route[j][5] for j in range(0, end + 1)])
+        for j in range(start, l):
+            data.append(route[j])
+        for j in range(0, end + 1):
+            data.append(route[j])
+        del route[start : l]
+        del route[0 : end + 1]
+        m = end + 1
+        while m < len(route):
+            xm, ym, om, cm, tm, um, am, sm, waitm, maxshiftm, ogm = route[m]
+            x, y, o, c, t, u, a, s, wait, maxshift, og = route[m-1]
+            dist = distance(x, y, xm, ym)
+            newam = s + t + dist
+            shift = am - newam
+            newsm = max(newam, om)
+            newwaitm = max(0, newsm - newam)
+            newmaxshiftm = maxshiftm + shift
+            route[m] = [xm, ym, om, cm, tm, um, newam, newsm, newwaitm, newmaxshiftm, ogm]
+            m += 1
+        route = updatebefore([begin] + route + [final], end+1, route[end+1][8], route[end+1][9])
+    return route, value - valuedeleted, data, length
+    
+              
 def main():
     N, data = read_input()
     route = [[200, 200, 0, 0, 0, 0, 0, 0, 0, 0, "N/A"], "end"]
-    print(insert(data, route, 0, 0))
+    x = (insert(data, route, 0, 0))[0]
+    print(x)
+    l = len(x)
+    res = []
+    for i in range(1,l-1):
+        res.append(x[i][-1])
+    print(l-2)
+    print(*res)
 
 if __name__ == '__main__':
     main()
