@@ -67,7 +67,7 @@ def tryinsert(data, route, value, length):
               # then it might be possible to insert j
                 wait = max(0, possible_s - possible_a) #account for whole number FIX FIX
                 shift = c_ij + wait + t + c_jk - c_ik
-                if ((route[k] != "end" and shift <= waitk + maxshiftk) or route[k] == "end") and bestshift < shift:
+                if ((route[k] != "end" and shift <= waitk + maxshiftk) or route[k] == "end") and shift < bestshift:
                     bestshift = shift
                     bestarrival = possible_a
                     beststart = possible_s
@@ -83,7 +83,7 @@ def tryinsert(data, route, value, length):
         length += 1
         data.pop(j)
         route = updateafter(route, i, shift)
-        maxshift = maxshiftupdate(route, i, c, start)
+        maxshift = maxshiftupdate(route, i, c, start, t, x, y)
         route = updatebefore(route, i, wait, maxshift)
         return route[:i+1] + [[x, y, o, c, t, u, a, start, wait, maxshift]] + route[k:], value, data, length
     else:
@@ -113,9 +113,13 @@ def updatebefore(route, i, wait, maxshift):
         nextmaxshift = route[l][9]
     return route
 
-def maxshiftupdate(route, i, c, start):
-    xk, yk, ok, ck, tk, uk, ak, sk, waitk, maxshiftk = route[i+1]
-    return min(c - start, waitk + maxshiftk)
+def maxshiftupdate(route, i, c, start, t, x, y):
+    if i != len(route)-2:
+        xk, yk, ok, ck, tk, uk, ak, sk, waitk, maxshiftk = route[i+1]
+        return min(c - start, waitk + maxshiftk)
+    else:
+        return 1440 - (start + t) - distance(x, y, 200, 200)
+
                       
 def distance(x1,y1,x2,y2):
     return math.sqrt((x2-x1)**2 + (y2-y1)**2)
