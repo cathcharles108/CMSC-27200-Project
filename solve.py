@@ -37,7 +37,8 @@ def solve(N, data):
 def insert(data, route, value, length):
     newroute, value, data, length = tryinsert(data, route, value, length)
     while newroute != route:
-      newroute, value, data, length = tryinsert(data, newroute, value, length)
+        route = newroute
+        newroute, value, data, length = tryinsert(data, newroute, value, length)
     return newroute, value, data, length
 
 def tryinsert(data, route, value, length):
@@ -60,12 +61,12 @@ def tryinsert(data, route, value, length):
             c_jk = distance(x, y, xk, yk)
             c_ik = distance(xi, yi, xk, yk)
             possible_a = si + ti + c_ij
-            possible_s = math.ceil(max(possible_a, o))
+            possible_s = max(possible_a, o)
             if possible_a <= c and possible_s + t + c_jk <= ck:
               # if ride i start + ride i time + time from i to j <= j closing time
               # and ride j start + ride j time + time from j to k <= k closing time
               # then it might be possible to insert j
-                wait = max(0, possible_s - possible_a) #account for whole number FIX FIX
+                wait = max(0, possible_s - possible_a)
                 shift = c_ij + wait + t + c_jk - c_ik
                 if ((route[k] != "end" and shift <= waitk + maxshiftk) or route[k] == "end") and shift < bestshift:
                     bestshift = shift
@@ -85,7 +86,7 @@ def tryinsert(data, route, value, length):
         route = updateafter(route, i, shift)
         maxshift = maxshiftupdate(route, i, c, start, t, x, y)
         route = updatebefore(route, i, wait, maxshift)
-        return route[:i+1] + [[x, y, o, c, t, u, a, start, wait, maxshift]] + route[k:], value, data, length
+        return route[:i+1] + [[x, y, o, c, t, u, a, start, wait, maxshift]] + route[i+1:], value, data, length
     else:
         return route, value, data, length
 
@@ -111,6 +112,7 @@ def updatebefore(route, i, wait, maxshift):
         route[l][9] = min(c - s, nextwait + nextmaxshift)
         nextwait = wait
         nextmaxshift = route[l][9]
+        l -= 1
     return route
 
 def maxshiftupdate(route, i, c, start, t, x, y):
@@ -122,16 +124,15 @@ def maxshiftupdate(route, i, c, start, t, x, y):
 
                       
 def distance(x1,y1,x2,y2):
-    return math.sqrt((x2-x1)**2 + (y2-y1)**2)
+    return math.ceil(math.sqrt((x2-x1)**2 + (y2-y1)**2))
 
 # def shake(r, s, route):
 #     ...
       
 def main():
-    #N, data = read_input()
+    N, data = read_input()
     route = [[200, 200, 0, 0, 0, 0, 0, 0, 0, 0], "end"]
-    data = [[350, 10, 612, 800, 150, 700]]
-    print(tryinsert(data, route, 0, 0))
+    print(insert(data, route, 0, 0))
 
 if __name__ == '__main__':
     main()
