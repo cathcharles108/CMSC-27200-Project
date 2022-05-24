@@ -46,7 +46,7 @@ def insert(data, route, value, length):
 def tryinsert(data, route, value, length):
     H = []
     for j in range(len(data)):
-        x, y, o, c, t, u, indexj = data[j]
+        x, y, o, c, u, t, indexj = data[j]
         bestshift = float('inf')
         bestwait = "none"
         bestarrival = "none"
@@ -83,7 +83,7 @@ def tryinsert(data, route, value, length):
     if len(H) != 0:
         ratio, insertion = heapq.heappop(H)
         j, i, a, start, wait, shift, og_index = insertion
-        x, y, o, c, t, u, og = data[j]
+        x, y, o, c, u, t, og = data[j]
         value += u
         length += 1
         data.pop(j)
